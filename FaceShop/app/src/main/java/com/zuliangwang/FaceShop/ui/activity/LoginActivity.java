@@ -1,8 +1,11 @@
 package com.zuliangwang.FaceShop.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,6 +19,7 @@ import com.zuliangwang.FaceShop.utils.cameraUtils.CameraFilePath;
 import com.zuliangwang.FaceShop.view.LoginView;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import butterknife.ButterKnife;
@@ -113,10 +117,27 @@ public class LoginActivity extends AppCompatActivity implements LoginView,View.O
             e.printStackTrace();
         }
 
+        Log.d("TAG",""+photoFilePath.getAbsolutePath());
         if (photoFilePath != null) {
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                     Uri.fromFile(photoFilePath));
             startActivityForResult(cameraIntent, 1);
         }
     }
+
+    //当照片拍摄完毕，在这里调用图片进入下一个Activity
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK){
+            Bundle bundle = data.getExtras();
+            Bitmap bitmap = (Bitmap) bundle.get(MediaStore.EXTRA_OUTPUT);
+            Intent editIntent = new Intent(LoginActivity.this,EditPhotoActivity.class);
+            
+        }
+
+    }
+
+
 }
