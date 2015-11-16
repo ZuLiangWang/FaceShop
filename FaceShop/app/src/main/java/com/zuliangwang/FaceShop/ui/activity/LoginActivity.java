@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,View.O
             Bundle bundle = data.getExtras();
             Bitmap bitmap = (Bitmap) bundle.get(MediaStore.EXTRA_OUTPUT);
             Intent editIntent = new Intent(LoginActivity.this,EditPhotoActivity.class);
-            
+
         }
 
     }
