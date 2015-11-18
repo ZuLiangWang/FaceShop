@@ -39,6 +39,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,View.O
     Button setUpButton;
 
 
+    private String mPhotoPath;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +121,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,View.O
 
         Log.d("TAG",""+photoFilePath.getAbsolutePath());
         if (photoFilePath != null) {
+            mPhotoPath = photoFilePath.getAbsolutePath();
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                     Uri.fromFile(photoFilePath));
             startActivityForResult(cameraIntent, 1);
@@ -135,6 +138,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView,View.O
             Bitmap bitmap = (Bitmap) bundle.get(MediaStore.EXTRA_OUTPUT);
             Intent editIntent = new Intent(LoginActivity.this,EditPhotoActivity.class);
 
+//            editIntent.putExtra("ca")
+            editIntent.putExtra("photoPath",mPhotoPath);
             startActivity(editIntent);
         }
 
