@@ -15,6 +15,7 @@ import java.io.File;
 public class EditPhotoActivity extends AppCompatActivity{
 
     Bitmap photo;
+    Intent loginIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,7 @@ public class EditPhotoActivity extends AppCompatActivity{
     }
 
     private void initCameraPhoto(){
-        String photoPath = intent.getStringExtra("photoPath");
+        String photoPath = loginIntent.getStringExtra("photoPath");
         photo = GetDiskBitmap.getDiskBitmap(photoPath);
     }
 }
