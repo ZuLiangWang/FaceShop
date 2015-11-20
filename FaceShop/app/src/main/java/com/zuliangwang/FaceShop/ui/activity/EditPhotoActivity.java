@@ -17,6 +17,7 @@ public class EditPhotoActivity extends AppCompatActivity{
 
     Bitmap photo;
     Intent loginIntent;
+    boolean isTakePhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,4 +30,6 @@ public class EditPhotoActivity extends AppCompatActivity{
         String photoPath = loginIntent.getStringExtra("photoPath");
         photo = GetDiskBitmap.getDiskBitmap(photoPath);
     }
+
+
 }
