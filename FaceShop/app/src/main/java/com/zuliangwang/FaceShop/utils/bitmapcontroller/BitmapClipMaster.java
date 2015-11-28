@@ -1,6 +1,7 @@
 package com.zuliangwang.FaceShop.utils.bitmapcontroller;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -29,11 +30,21 @@ public class BitmapClipMaster {
     }
 
 
+    //返回的是奖两张图合并之后的新图
+    public static Bitmap compose(Bitmap bgImage,Bitmap frontImage,float top,float left){
+        Bitmap result = bgImage.copy(Bitmap.Config.ARGB_8888,true);
+        Canvas canvas = new Canvas(result);
+
+        canvas.drawBitmap(bgImage,0,0,new Paint());
+        canvas.drawBitmap(frontImage,left,top,new Paint());
+        canvas.save();
+
+        return result;
+    }
 
 
 
-
-    private Path getBezierPath(List<PointF> points) {
+    public static Path getBezierPath(List<PointF> points) {
         Path path = new Path();
 
         if (points.size() < 2) {
@@ -56,7 +67,7 @@ public class BitmapClipMaster {
         return path;
     }
 
-    private PointF getFirstCtrlPoint(List<PointF> points, int index, float ratio) {
+    public static PointF getFirstCtrlPoint(List<PointF> points, int index, float ratio) {
         if (index < 0 || index >= points.size() - 1) {
             throw new IllegalArgumentException();
         }
@@ -74,7 +85,7 @@ public class BitmapClipMaster {
         return new PointF(X, Y);
     }
 
-    private PointF getSecondCtrlPoint(List<PointF> points, int index, float ratio) {
+    public static PointF getSecondCtrlPoint(List<PointF> points, int index, float ratio) {
         if (index < 0 || index >= points.size() - 1) {
             throw new IllegalArgumentException();
         }
