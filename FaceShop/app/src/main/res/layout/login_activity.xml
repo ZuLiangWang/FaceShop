@@ -1,8 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    xmlns:custom="http://schemas.android.com/apk/res/com.zuliangwang.Faceshop"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context=".MainActivity">
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
 
 
@@ -22,10 +24,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-         <com.zuliangwang.FaceShop.widget.DragEditText
-             android:layout_width="wrap_content"
-             android:text="sss"
-             android:layout_height="wrap_content" />
             <ImageView
                 android:layout_weight="1"
                 android:id="@+id/faceImage2"
@@ -63,6 +61,21 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <FrameLayout
+        android:background="#999"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:src="@drawable/icon_face_06"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.zuliangwang.FaceShop.widget.DragText
+            android:text="323"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
 
 

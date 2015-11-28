@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,27 +23,22 @@ import com.zuliangwang.FaceShop.R;
 import com.zuliangwang.FaceShop.YouTuApplication;
 import com.zuliangwang.FaceShop.bean.FacePositionModel;
 import com.zuliangwang.FaceShop.interactor.DetectFaceInteractor;
-import com.zuliangwang.FaceShop.interactor.ReplaceInteractor;
 import com.zuliangwang.FaceShop.interactor.impl.DetectFaceInteractorImpl;
-import com.zuliangwang.FaceShop.interactor.impl.ReplaceInteractorImpl;
 import com.zuliangwang.FaceShop.utils.bitmapcontroller.BitmapClipMaster;
 import com.zuliangwang.FaceShop.utils.bitmapcontroller.BitmapRich;
 import com.zuliangwang.FaceShop.utils.cameraUtils.CameraFilePath;
 import com.zuliangwang.FaceShop.view.LoginView;
-import com.zuliangwang.FaceShop.widget.DragEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 import youtu.Youtu;
 
 
@@ -207,16 +200,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView,View.O
             FrameLayout frameLayout = (FrameLayout) findViewById(R.id.test_frame);
             ViewGroup.LayoutParams frame = frameLayout.getLayoutParams();
 
-            DragEditText dragEditText = new DragEditText(LoginActivity.this);
-            dragEditText.setBg(newface);
-//            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            dragEditText.setLayoutParams(frame);
-            dragEditText.setHint("23333");
             Bitmap test  = BitmapFactory.decodeResource(getResources(),R.drawable.icon_face_10);
 //            origin.setImageBitmap(test);
             Bitmap ts = BitmapClipMaster.compose(test, result, 0, 0);
             Bitmap s=BitmapRich.toGrayscale(ts);
+            Bitmap d=BitmapRich.changeContrast(s);
             origin.setImageBitmap(s);
+            newface.setImageBitmap(d);
         }
     }
 
