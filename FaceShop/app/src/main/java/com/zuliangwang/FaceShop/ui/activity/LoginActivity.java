@@ -42,16 +42,8 @@ import butterknife.InjectView;
 import youtu.Youtu;
 
 
-public class LoginActivity extends AppCompatActivity implements LoginView,View.OnClickListener{
+public class LoginActivity extends BaseActivity implements LoginView,View.OnClickListener{
 
-    @InjectView(R.id.take_photo_button)
-    Button takePhotoButton;
-
-    @InjectView(R.id.select_photo_button)
-    Button selectPhotoButton;
-
-    @InjectView(R.id.set_up_button)
-    Button setUpButton;
 
     @InjectView(R.id.faceImage1)
     ImageView origin;
@@ -111,9 +103,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView,View.O
 
     @Override
     public void initialized() {
-        selectPhotoButton.setOnClickListener(this);
-        setUpButton.setOnClickListener(this);
-        takePhotoButton.setOnClickListener(this);
+//        selectPhotoButton.setOnClickListener(this);
+//        setUpButton.setOnClickListener(this);
+//        takePhotoButton.setOnClickListener(this);
 
     }
 

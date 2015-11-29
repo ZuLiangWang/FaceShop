@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 /**
  * Created by zuliangwang on 15/11/15.
  */
-public class SelectPhotoActivity extends AppCompatActivity {
+public class SelectPhotoActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

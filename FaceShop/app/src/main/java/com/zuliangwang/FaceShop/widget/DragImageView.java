@@ -5,12 +5,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 /**
- * Created by zuliangwang on 15/11/28.
+ * Created by zuliangwang on 15/11/29.
  */
-public class DragText extends TextView {
+public class DragImageView extends ImageView {
 
     private static final int HORIZONTAL = 1;
     private static final int VERTICAL = 2;
@@ -34,19 +34,18 @@ public class DragText extends TextView {
     private int parentHeight;
     private int parentWidth;
 
-    public DragText(Context context) {
+
+    public DragImageView(Context context) {
         super(context);
     }
 
-    public DragText(Context context, AttributeSet attrs) {
-        super(context,attrs);
-
+    public DragImageView(Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
-    public DragText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DragImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -59,7 +58,7 @@ public class DragText extends TextView {
                 startX = event.getX();
                 startY = event.getY();
 
-                Log.d("TAG","startX = "+startX +"   startY = " +startY);
+                Log.d("TAG", "startX = " + startX + "   startY = " + startY);
                 break;
             case MotionEvent.ACTION_MOVE:
                 endX = event.getX();

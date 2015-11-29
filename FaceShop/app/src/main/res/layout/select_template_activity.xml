@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+    <com.zuliangwang.FaceShop.widget.TemplatePositionFrame
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.zuliangwang.FaceShop.widget.DragImageView
+            android:src="@drawable/icon_face_06"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.zuliangwang.FaceShop.widget.DragText
+            android:text="test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </com.zuliangwang.FaceShop.widget.TemplatePositionFrame>
+
+
+</LinearLayout>

@@ -13,7 +13,7 @@ import java.io.File;
 /**
  * Created by zuliangwang on 15/11/15.
  */
-public class EditPhotoActivity extends AppCompatActivity{
+public class EditPhotoActivity extends BaseActivity{
 
     Bitmap photo;
     Intent loginIntent;
