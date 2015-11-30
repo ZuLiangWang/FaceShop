@@ -5,5 +5,7 @@ package com.zuliangwang.FaceShop.presenter;
  */
 public interface CameraPresenter extends BasePresenter {
 
+    public void startTakePhoto();
 
+    public void startSelectFromAlbum();
 }

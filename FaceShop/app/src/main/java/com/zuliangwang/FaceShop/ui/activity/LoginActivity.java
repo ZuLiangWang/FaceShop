@@ -42,7 +42,7 @@ import butterknife.InjectView;
 import youtu.Youtu;
 
 
-public class LoginActivity extends BaseActivity implements LoginView,View.OnClickListener{
+public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
 
     @InjectView(R.id.faceImage1)
@@ -62,9 +62,6 @@ public class LoginActivity extends BaseActivity implements LoginView,View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
         ButterKnife.inject(this);
-        initialized();
-
-
 
 
         srcFace = BitmapFactory.decodeResource(getResources(),R.drawable.icon_face_06);
@@ -101,13 +98,6 @@ public class LoginActivity extends BaseActivity implements LoginView,View.OnClic
 
 
 
-    @Override
-    public void initialized() {
-//        selectPhotoButton.setOnClickListener(this);
-//        setUpButton.setOnClickListener(this);
-//        takePhotoButton.setOnClickListener(this);
-
-    }
 
 
     @Override
@@ -116,7 +106,6 @@ public class LoginActivity extends BaseActivity implements LoginView,View.OnClic
     }
 
 
-    @Override
     public void startCamera() {
         Intent cameraIntent =new Intent();
         cameraIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);

@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.zuliangwang.FaceShop.R;
+import com.zuliangwang.FaceShop.presenter.CameraPresenter;
+import com.zuliangwang.FaceShop.presenter.impl.CameraPresenterImpl;
 import com.zuliangwang.FaceShop.utils.cameraUtils.CameraFilePath;
 import com.zuliangwang.FaceShop.view.CameraView;
 
@@ -36,15 +38,18 @@ public class CameraActivity extends BaseActivity implements View.OnClickListener
 
     public String photoStringAbPath;
 
+    public static final int START_TAKE_PHOTO =1;
+    public static final int SELECT_FROM_ALBUM =2;
 
-    private static final int START_TAKE_PHOTO = 1;
-    private static final int SELECT_FROM_ALBUM = 2;
+    CameraPresenter cameraPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_activity);
         ButterKnife.inject(this);
+
+        cameraPresenter = new CameraPresenterImpl(this,this,this);
     }
 
     @Override
@@ -59,7 +64,16 @@ public class CameraActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    @Override
+
+
+
+    public void selectFromAlbum() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, SELECT_FROM_ALBUM);
+    }
+
+
+
     public void startCamera() {
         Intent cameraIntent =new Intent();
         cameraIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -76,21 +90,12 @@ public class CameraActivity extends BaseActivity implements View.OnClickListener
 
         Log.d("TAG", "" + photoFilePath.getAbsolutePath());
         if (photoFilePath != null) {
-           photoStringAbPath = photoFilePath.getAbsolutePath();
+            photoStringAbPath = photoFilePath.getAbsolutePath();
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                     Uri.fromFile(photoFilePath));
             startActivityForResult(cameraIntent, START_TAKE_PHOTO);
         }
     }
-
-    @Override
-    public void selectFromAlbum() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, SELECT_FROM_ALBUM);
-    }
-
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

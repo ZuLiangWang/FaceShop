@@ -6,9 +6,7 @@ package com.zuliangwang.FaceShop.view;
 public interface CameraView  extends BaseView{
 
 
-    public void startCamera();
 
-    public void selectFromAlbum();
 
 
 }
