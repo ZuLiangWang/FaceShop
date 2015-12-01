@@ -6,4 +6,5 @@ package com.zuliangwang.FaceShop.presenter;
 public interface BasePresenter {
 
     public void initialized();
+
 }

@@ -27,4 +27,14 @@ dependencies {
     compile 'com.jakewharton:butterknife:5.1.1'
     compile 'com.jakewharton:butterknife:5.1.1'
     compile 'com.android.support:recyclerview-v7:23.0.1'
+    compile files('libs/libs/ShareSDK-Wechat-Moments-2.6.5.jar')
+    compile files('libs/libs/ShareSDK-Wechat-Favorite-2.6.5.jar')
+    compile files('libs/libs/ShareSDK-Wechat-Core-2.6.5.jar')
+    compile files('libs/libs/ShareSDK-Wechat-2.6.5.jar')
+    compile files('libs/libs/ShareSDK-SinaWeibo-2.6.5.jar')
+    compile files('libs/libs/ShareSDK-QZone-2.6.5.jar')
+    compile files('libs/libs/ShareSDK-QQ-2.6.5.jar')
+    compile files('libs/libs/ShareSDK-Core-2.6.5.jar')
+    compile files('libs/libs/MobTools.jar')
+    compile files('libs/libs/MobCommons.jar')
 }
