@@ -10,6 +10,7 @@ import com.zuliangwang.FaceShop.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by zuliangwang on 15/11/28.
@@ -27,6 +28,9 @@ public class SelectExpressionFaceActivity extends BaseActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_changeface_expression);
         ButterKnife.inject(this);
+
+        changeFace.setOnClickListener(this);
+        makeExpression.setOnClickListener(this);
     }
 
     @Override
@@ -37,7 +41,11 @@ public class SelectExpressionFaceActivity extends BaseActivity implements View.O
                 break;
             case R.id.make_expression:
                 Intent intent1 = new Intent(this,CameraActivity.class);
+                startActivity(intent1);
                 break;
         }
     }
+
+//    @OnClick({R.id.change_face,R.id.make_expression})
+
 }

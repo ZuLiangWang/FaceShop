@@ -64,7 +64,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         ButterKnife.inject(this);
 
 
-        srcFace = BitmapFactory.decodeResource(getResources(),R.drawable.icon_face_06);
+//        srcFace = BitmapFactory.decodeResource(getResources(),R.drawable.icon_face_06);
         origin.setImageBitmap(srcFace);
         MyAyncTask task = new MyAyncTask();
         task.execute();
@@ -181,13 +181,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
             FrameLayout frameLayout = (FrameLayout) findViewById(R.id.test_frame);
             ViewGroup.LayoutParams frame = frameLayout.getLayoutParams();
 
-            Bitmap test  = BitmapFactory.decodeResource(getResources(),R.drawable.icon_face_10);
+//            Bitmap test  = BitmapFactory.decodeResource(getResources(),R.drawable.icon_face_10);
 //            origin.setImageBitmap(test);
-            Bitmap ts = BitmapClipMaster.compose(test, result, 0, 0);
-            Bitmap s=BitmapRich.toGrayscale(ts);
-            Bitmap d=BitmapRich.changeContrast(s);
-            origin.setImageBitmap(s);
-            newface.setImageBitmap(d);
+//            Bitmap ts = BitmapClipMaster.compose(test, result, 0, 0);
+//            Bitmap s=BitmapRich.toGrayscale(ts);
+//            Bitmap d=BitmapRich.changeContrast(s);
+//            origin.setImageBitmap(s);
+//            newface.setImageBitmap(d);
         }
     }
 

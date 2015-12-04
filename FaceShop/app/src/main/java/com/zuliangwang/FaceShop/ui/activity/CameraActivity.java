@@ -2,16 +2,14 @@ package com.zuliangwang.FaceShop.ui.activity;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.squareup.picasso.Picasso;
 import com.zuliangwang.FaceShop.R;
 import com.zuliangwang.FaceShop.presenter.CameraPresenter;
 import com.zuliangwang.FaceShop.presenter.impl.CameraPresenterImpl;
@@ -21,19 +19,18 @@ import com.zuliangwang.FaceShop.view.CameraView;
 import java.io.File;
 import java.io.IOException;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 /**
  * Created by zuliangwang on 15/11/15.
  */
 public class CameraActivity extends BaseActivity implements View.OnClickListener,CameraView{
 
 
-    @InjectView(R.id.take_photo)
+//    @InjectView(R.id.take_photo)
     ImageButton takePhoto;
-    @InjectView(R.id.select_from_photoalbum)
-    ImageButton selcetFromAlbum;
+//    @InjectView(R.id.select_from_photoalbum)
+    ImageButton selectFromAlbumButton;
+//    @InjectView(R.id.cameraac_back)
+    ImageButton back;
 
 
     public String photoStringAbPath;
@@ -47,9 +44,26 @@ public class CameraActivity extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_activity);
-        ButterKnife.inject(this);
+//        ButterKnife.inject(this);
+        takePhoto = (ImageButton) findViewById(R.id.take_photo);
+        selectFromAlbumButton = (ImageButton) findViewById(R.id.select_from_photoalbum);
+        back = (ImageButton) findViewById(R.id.cameraac_back);
+
+        Log.d("TAG", "ss" + takePhoto.getWidth() + "dd" + selectFromAlbumButton.getWidth() + "cc" + back.getWidth());
+
 
         cameraPresenter = new CameraPresenterImpl(this,this,this);
+
+        takePhoto.setOnClickListener(this);
+        selectFromAlbumButton.setOnClickListener(this);
+
+
+//        Picasso.with(this).load(R.drawable.b1).into(takePhoto);
+        Picasso.with(this).load(R.drawable.b2).into(back);
+        Picasso.with(this).load(R.drawable.b3).into(selectFromAlbumButton);
+        Picasso.with(this).load(R.drawable.b1).into(takePhoto);
+
+
     }
 
     @Override
@@ -58,8 +72,9 @@ public class CameraActivity extends BaseActivity implements View.OnClickListener
             case R.id.take_photo:
                 startCamera();
                 break;
-            case R.id.change_face:
+            case R.id.select_from_photoalbum:
                 selectFromAlbum();
+                Log.d("TAG","album");
                 break;
         }
     }
@@ -138,4 +153,5 @@ public class CameraActivity extends BaseActivity implements View.OnClickListener
     public void initialized() {
 
     }
+
 }
