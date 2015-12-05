@@ -30,34 +30,36 @@
         android:layout_width="260dp"
         android:layout_height="260dp">
         <FrameLayout
-
+            android:id="@+id/edit_frame"
             android:layout_gravity="center_horizontal"
             android:layout_width="250dp"
             android:layout_height="250dp">
 
 
 
-            <ImageView
-                android:src="@drawable/e1"
-                android:layout_margin="30dp"
-                android:id="@+id/edit_template"
-                android:layout_gravity="center_horizontal"
+            <!--<ImageView-->
+                <!--android:src="@drawable/e1"-->
+                <!--android:layout_margin="30dp"-->
+                <!--android:id="@+id/edit_template"-->
+                <!--android:layout_gravity="center_horizontal"-->
 
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent" />-->
 
-            <ImageView
-                android:src="@drawable/ic_launcher"
-                android:id="@+id/edit_face"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <!--<ImageView-->
+                <!--android:src="@drawable/ic_launcher"-->
+                <!--android:id="@+id/edit_face"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content" />-->
         </FrameLayout>
 
     </FrameLayout>
 
     <RelativeLayout
+        android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
 
     </RelativeLayout>

@@ -78,6 +78,8 @@ public class DragImageView extends ImageView {
                     int realRight = calculatePosition(left,right,dx,HORIZONTAL,RIGHT);
                     int realTop = calculatePosition(top,bottom,dy,VERTICAL,TOP);
                     int realBottom = calculatePosition(top,bottom,dy,VERTICAL,bottom);
+
+
                     layout(realLeft,realTop,realRight,realBottom);
                 }
 
@@ -85,7 +87,7 @@ public class DragImageView extends ImageView {
 
                 break;
             case MotionEvent.ACTION_UP:
-                Log.d("TAG",getLeft()+"  "+getRight() +"   "+getWidth());
+                Log.d("sb35",getLeft()+"  "+getRight() +"   "+"    "+getTop()+"    "+getBottom());
                 break;
             default:
                 break;

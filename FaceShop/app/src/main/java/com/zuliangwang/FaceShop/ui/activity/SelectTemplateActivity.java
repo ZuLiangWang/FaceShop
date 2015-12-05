@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -68,18 +69,23 @@ public class SelectTemplateActivity extends BaseActivity {
             }
         });
 
+
     }
 
     public void passTemplate(){
         Intent photoIntent = getIntent();
         photoIntent.setClass(this,EditPhotoActivity.class);
 
-        photoIntent.putExtra("templateId",curTemplateId);
+        photoIntent.putExtra("templateId", curTemplateId);
         photoIntent.putExtra("templateLeft",dragTemplate.getLeft());
         photoIntent.putExtra("templateRight",dragTemplate.getRight());
         photoIntent.putExtra("templateTop",dragTemplate.getTop());
         photoIntent.putExtra("templateBottom",dragTemplate.getBottom());
         photoIntent.putExtra("templatePosition",curTemplatePosition);
+
+
+        Log.d("templateLeft", "" + dragTemplate.getLeft());
+        Log.d("Tax",""+dragTemplate.getWidth());
 
         startActivity(photoIntent);
     }

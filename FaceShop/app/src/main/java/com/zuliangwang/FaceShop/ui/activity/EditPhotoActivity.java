@@ -3,13 +3,18 @@ package com.zuliangwang.FaceShop.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -20,7 +25,10 @@ import com.zuliangwang.FaceShop.bean.FacePositionModel;
 import com.zuliangwang.FaceShop.bean.FaceTemplateBean;
 import com.zuliangwang.FaceShop.interactor.impl.DetectFaceInteractorImpl;
 import com.zuliangwang.FaceShop.ui.Config;
+import com.zuliangwang.FaceShop.utils.bitmapcontroller.BitmapClipMaster;
+import com.zuliangwang.FaceShop.utils.bitmapcontroller.BitmapRich;
 import com.zuliangwang.FaceShop.utils.bitmapcontroller.GetDiskBitmap;
+import com.zuliangwang.FaceShop.utils.cameraUtils.CameraFilePath;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,11 +52,8 @@ public class EditPhotoActivity extends BaseActivity{
     @InjectView(R.id.edit_photo_back)
     ImageButton backButton;
 
-    @InjectView(R.id.edit_template)
-    ImageView template;
-
-    @InjectView(R.id.edit_face)
-    ImageView face;
+    @InjectView(R.id.edit_frame)
+    FrameLayout editFrame;
 
 
 
@@ -60,25 +65,36 @@ public class EditPhotoActivity extends BaseActivity{
     int templateRight;
     int templateTop;
     int templateBottom;
+
+    int faceLeft;
+    int faceRight;
+    int faceTop;
+    int faceBottom;
     String photoPath;
 
+
     Bitmap faceBitmap;
+    ImageView template ;
 
     DetectFaceInteractorImpl detectFaceInteractor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.edit_photo_activity);
         ButterKnife.inject(this);
-        initCameraPhoto();
+        initInfo();
+        initTemplate();
+
 
         LoadFaceTask task = new LoadFaceTask();
         task.execute();
 
     }
 
-    private void initCameraPhoto(){
+    private void initInfo(){
+
         lastActivityIntent = getIntent();
 
         templateId = lastActivityIntent.getIntExtra("templateId", 0);
@@ -86,22 +102,36 @@ public class EditPhotoActivity extends BaseActivity{
         templateRight = lastActivityIntent.getIntExtra("templateRight", 0);
         templateTop = lastActivityIntent.getIntExtra("templateTop", 0);
         templateBottom = lastActivityIntent.getIntExtra("templateBottom", 0);
-        curTemplatePosition = lastActivityIntent.getIntExtra("templatePosition",0);
+        curTemplatePosition = lastActivityIntent.getIntExtra("templatePosition", 0);
 
         photoPath = lastActivityIntent.getStringExtra("photoPath");
         faceBitmap = BitmapFactory.decodeFile(photoPath);
 
-
-        Picasso.with(this).load(templateId).into(template);
-        template.setLeft(templateLeft);
-        template.setRight(templateRight);
-        template.setTop(templateTop);
-        template.setBottom(templateBottom);
     }
+
+    public void initTemplate(){
+        template = new ImageView(this);
+        template.setBackgroundColor(Color.WHITE);
+
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(templateRight-templateLeft,templateBottom-templateTop);
+        params.setMargins(templateLeft, templateTop, templateRight, templateBottom);
+        template.setLayoutParams(params);
+
+        editFrame.addView(template);
+        Picasso.with(this).load(templateId).resize(220,220).into(template);
+        ;
+
+    }
+
+
+
+
+
 
 
     public class LoadFaceTask extends AsyncTask{
         Bitmap result;
+        DetectFaceInteractorImpl detectFaceInteractor;
 
         @Override
         protected Object doInBackground(Object[] params) {
@@ -111,8 +141,11 @@ public class EditPhotoActivity extends BaseActivity{
                 Gson gson = new Gson();
                 FacePositionModel model = gson.fromJson(respsonse.toString(),FacePositionModel.class);
                 Log.d("TAG",model.toString());
-                DetectFaceInteractorImpl detectFaceInteractor = new DetectFaceInteractorImpl(model,faceBitmap);
+               detectFaceInteractor = new DetectFaceInteractorImpl(model,faceBitmap);
                 result = detectFaceInteractor.getFace();
+
+
+
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -131,21 +164,43 @@ public class EditPhotoActivity extends BaseActivity{
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
+
             Config config = new Config();
             FaceTemplateBean bean = config.getTemplateConfig(curTemplatePosition);
-            int faceLeft = (int) (templateLeft+templateLeft*bean.getLeft());
-            int faceRight = (int) (templateRight+templateRight*bean.getRight());
-            int faceTop = (int) (templateTop+templateTop*bean.getTop());
-            int faceBottom = (int) (templateBottom+templateBottom*bean.getBottom());
+            float temLeft = bean.getLeft()*template.getWidth();
+            faceLeft = (int) (templateLeft+ temLeft);
+
+            float temRight = bean.getRight()*template.getWidth();
+            faceRight = (int) (templateLeft+temRight);
+
+            float temTop = bean.getTop()*template.getHeight();
+            faceTop = (int) (templateTop+temTop);
+
+            float temBottom=bean.getBottom()*template.getHeight();
+            faceBottom = (int) (templateTop+templateBottom);
+
+            ImageView face = new ImageView(EditPhotoActivity.this);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(faceRight-faceLeft,faceBottom-faceTop);
+
+            face.setScaleType(ImageView.ScaleType.FIT_START);
+
+            Log.d("sssss", "width" + template.getWidth());
+            Log.d("ssssss", "faceTop" + faceTop + "    templateTop" + templateTop);
+            Log.d("ssssss", "faceLeft" + faceLeft + "   templateLeft" + templateLeft);
+            params.setMargins(faceLeft, faceTop, 0, 0);
+            face.setLayoutParams(params);
+            editFrame.addView(face);
 
 
-            face.setImageBitmap(result);
 
-            boolean is = result==null;
-            Log.d("TAG3",""+is);
-            face.layout(faceLeft, faceTop, faceRight, faceBottom);
 
-            Log.d("TAG","facveBVottom"+faceBottom+"    templateBottom"+templateBottom);
+
+            Bitmap finalBitmap = BitmapRich.toGrayscale(result);
+            Bitmap zzBitmap = detectFaceInteractor.removeBorder(finalBitmap);
+
+
+            face.setImageBitmap(zzBitmap);
+
         }
     }
 
