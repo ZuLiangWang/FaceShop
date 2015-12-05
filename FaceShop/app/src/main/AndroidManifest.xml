@@ -51,6 +51,8 @@
 
         <activity android:name=".ui.activity.SelectTemplateActivity"/>
 
+        <activity android:name=".ui.activity.EditPhotoActivity"/>
+
 
 
     </application>

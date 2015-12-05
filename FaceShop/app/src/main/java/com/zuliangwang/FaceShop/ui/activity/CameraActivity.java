@@ -59,7 +59,7 @@ public class CameraActivity extends BaseActivity implements View.OnClickListener
 
 
 //        Picasso.with(this).load(R.drawable.b1).into(takePhoto);
-        Picasso.with(this).load(R.drawable.b2).into(back);
+        Picasso.with(this).load(R.drawable.b2).resize(50,50).into(back);
         Picasso.with(this).load(R.drawable.b3).into(selectFromAlbumButton);
         Picasso.with(this).load(R.drawable.b1).into(takePhoto);
 

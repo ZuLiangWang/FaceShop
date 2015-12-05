@@ -10,21 +10,15 @@
         android:layout_height="wrap_content">
         <ImageButton
             android:background="@color/background"
-            android:id="@+id/select_template_back"
+            android:id="@+id/edit_photo_back"
             android:layout_width="30dp"
             android:layout_height="30dp" />
 
         <TextView
             android:layout_gravity="center_horizontal"
-            android:text="选图"
+            android:text="配字"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/select_template_confirm"
-            android:text="确定"
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
 
     </LinearLayout>
 
@@ -41,13 +35,22 @@
             android:layout_width="250dp"
             android:layout_height="250dp">
 
-            <com.zuliangwang.FaceShop.widget.DragImageView
+
+
+            <ImageView
+                android:src="@drawable/e1"
                 android:layout_margin="30dp"
-                android:id="@+id/select_drag_template"
+                android:id="@+id/edit_template"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/mo1"
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
+            <ImageView
+                android:src="@drawable/ic_launcher"
+                android:id="@+id/edit_face"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </FrameLayout>
 
     </FrameLayout>
@@ -56,15 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
 
-            android:layout_marginBottom="50dp"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/template_recycler"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp">
-
-        </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
 

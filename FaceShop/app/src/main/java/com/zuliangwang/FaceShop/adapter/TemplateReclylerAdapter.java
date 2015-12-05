@@ -39,7 +39,7 @@ public class TemplateReclylerAdapter extends RecyclerView.Adapter<TemplateReclyl
         TemplateViewHolder holder= new TemplateViewHolder(view);
 
         holder.template = (ImageView) view.findViewById(R.id.template_item_image);
-        view.setOnClickListener(this);
+        holder.template.setOnClickListener(this);
 
         return holder;
     }
@@ -47,7 +47,7 @@ public class TemplateReclylerAdapter extends RecyclerView.Adapter<TemplateReclyl
     @Override
     public void onBindViewHolder(TemplateViewHolder holder, int position) {
 //        holder.template.setImageResource(datas.get(position));
-        Picasso.with(mContext).load(datas.get(position)).into(holder.template);
+        Picasso.with(mContext).load(datas.get(position)).resize(100,100).into(holder.template);
         holder.template.setTag(position);
 
     }
