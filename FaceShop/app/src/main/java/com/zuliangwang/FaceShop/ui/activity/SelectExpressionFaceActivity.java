@@ -18,8 +18,8 @@ import butterknife.OnClick;
 public class SelectExpressionFaceActivity extends BaseActivity implements View.OnClickListener{
 
 
-    @InjectView(R.id.change_face)
-    ImageButton changeFace;
+//    @InjectView(R.id.change_face)
+//    ImageButton changeFace;
     @InjectView(R.id.make_expression)
     ImageButton makeExpression;
 
@@ -29,16 +29,16 @@ public class SelectExpressionFaceActivity extends BaseActivity implements View.O
         setContentView(R.layout.select_changeface_expression);
         ButterKnife.inject(this);
 
-        changeFace.setOnClickListener(this);
+//        changeFace.setOnClickListener(this);
         makeExpression.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.change_face:
+//            case R.id.change_face:
 //                Intent intent = new Intent(this,CameraActivity.class);
-                break;
+//                break;
             case R.id.make_expression:
                 Intent intent1 = new Intent(this,CameraActivity.class);
                 startActivity(intent1);

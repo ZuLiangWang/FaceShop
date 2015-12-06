@@ -4,18 +4,24 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -29,6 +35,7 @@ import com.zuliangwang.FaceShop.utils.bitmapcontroller.BitmapClipMaster;
 import com.zuliangwang.FaceShop.utils.bitmapcontroller.BitmapRich;
 import com.zuliangwang.FaceShop.utils.bitmapcontroller.GetDiskBitmap;
 import com.zuliangwang.FaceShop.utils.cameraUtils.CameraFilePath;
+import com.zuliangwang.FaceShop.widget.DragText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,7 +52,7 @@ import youtu.Youtu;
 /**
  * Created by zuliangwang on 15/11/15.
  */
-public class EditPhotoActivity extends BaseActivity{
+public class EditPhotoActivity extends BaseActivity implements View.OnClickListener{
 
 
 
@@ -55,6 +62,22 @@ public class EditPhotoActivity extends BaseActivity{
     @InjectView(R.id.edit_frame)
     FrameLayout editFrame;
 
+    @InjectView(R.id.edit_big_size)
+    ImageButton bigSize;
+
+    @InjectView(R.id.edit_small_size)
+    ImageButton smallSize;
+
+    @InjectView(R.id.edit_text_size)
+    TextView textSize;
+
+    @InjectView(R.id.edit_edit_text)
+    EditText editText;
+
+
+
+    float curTextSize;
+    float textSizeRat;
 
 
     Intent lastActivityIntent;
@@ -75,6 +98,7 @@ public class EditPhotoActivity extends BaseActivity{
 
     Bitmap faceBitmap;
     ImageView template ;
+    DragText dragText;
 
     DetectFaceInteractorImpl detectFaceInteractor;
 
@@ -107,6 +131,13 @@ public class EditPhotoActivity extends BaseActivity{
         photoPath = lastActivityIntent.getStringExtra("photoPath");
         faceBitmap = BitmapFactory.decodeFile(photoPath);
 
+        Picasso.with(this).load(R.drawable.d3).into(bigSize);
+        Picasso.with(this).load(R.drawable.d4).into(smallSize);
+        Picasso.with(this).load(R.drawable.b2).into(backButton);
+
+        smallSize.setOnClickListener(this);
+        bigSize.setOnClickListener(this);
+
     }
 
     public void initTemplate(){
@@ -119,14 +150,34 @@ public class EditPhotoActivity extends BaseActivity{
 
         editFrame.addView(template);
         Picasso.with(this).load(templateId).resize(220,220).into(template);
-        ;
+
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
 
+            case R.id.edit_big_size:
+                if (curTextSize < (textSizeRat*3) ){
+                    curTextSize += textSizeRat;
+                }
+                break;
+            case R.id.edit_small_size:
+                if (curTextSize > textSizeRat){
+                    curTextSize -= textSizeRat;
+                }
+                break;
+            case R.id.edit_photo_back:
+                onBackPressed();
+                Log.d("ssz","xx");
+                break;
 
+        }
 
+        dragText.setTextSize(curTextSize);
 
+    }
 
 
     public class LoadFaceTask extends AsyncTask{
@@ -200,6 +251,25 @@ public class EditPhotoActivity extends BaseActivity{
 
 
             face.setImageBitmap(zzBitmap);
+
+
+            dragText = new DragText(EditPhotoActivity.this);
+
+            FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dragText.setLayoutParams(p);
+            editFrame.addView(dragText);
+            Log.d("ssssx", "panrent" + dragText.getParent().toString());
+
+            editText.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    dragText.setText(editText.getText());
+                    return false;
+                }
+            });
+            curTextSize = dragText.getTextSize();
+            textSizeRat = curTextSize;
+
 
         }
     }
