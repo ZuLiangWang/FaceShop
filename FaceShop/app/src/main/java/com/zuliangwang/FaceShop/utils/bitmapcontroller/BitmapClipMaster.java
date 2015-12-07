@@ -34,7 +34,10 @@ public class BitmapClipMaster {
     //返回的是奖两张图合并之后的新图
     public static Bitmap compose(Bitmap bgImage,Bitmap frontImage,float top,float left){
         Bitmap result = bgImage.copy(Bitmap.Config.ARGB_8888, true);
+//        Bitmap result = Bitmap.createBitmap(bgImage.getWidth(),bgImage.getHeight(), Bitmap.Config.ARGB_8888);
+
         Canvas canvas = new Canvas(result);
+
 
         canvas.drawBitmap(bgImage,0,0,new Paint());
         canvas.drawBitmap(frontImage, left, top, new Paint());

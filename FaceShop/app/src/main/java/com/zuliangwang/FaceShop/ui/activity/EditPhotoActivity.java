@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -74,10 +76,15 @@ public class EditPhotoActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.edit_edit_text)
     EditText editText;
 
+    @InjectView(R.id.edit_template_confirm)
+    ImageButton confirm;
 
+    @InjectView(R.id.edit_title)
+    ImageView editTitle;
 
     float curTextSize;
     float textSizeRat;
+    int curRat;
 
 
     Intent lastActivityIntent;
@@ -134,13 +141,17 @@ public class EditPhotoActivity extends BaseActivity implements View.OnClickListe
         Picasso.with(this).load(R.drawable.d3).into(bigSize);
         Picasso.with(this).load(R.drawable.d4).into(smallSize);
         Picasso.with(this).load(R.drawable.b2).into(backButton);
+        Picasso.with(this).load(R.drawable.d1).into(editTitle);
 
         smallSize.setOnClickListener(this);
         bigSize.setOnClickListener(this);
+        backButton.setOnClickListener(this);
+        confirm.setOnClickListener(this);
 
     }
 
     public void initTemplate(){
+        curRat =1;
         template = new ImageView(this);
         template.setBackgroundColor(Color.WHITE);
 
@@ -161,16 +172,29 @@ public class EditPhotoActivity extends BaseActivity implements View.OnClickListe
             case R.id.edit_big_size:
                 if (curTextSize < (textSizeRat*3) ){
                     curTextSize += textSizeRat;
+                    curRat++;
                 }
+                textSize.setText(""+curRat);
                 break;
             case R.id.edit_small_size:
                 if (curTextSize > textSizeRat){
                     curTextSize -= textSizeRat;
+                    curRat--;
                 }
+
+                textSize.setText(""+curRat);
                 break;
             case R.id.edit_photo_back:
                 onBackPressed();
-                Log.d("ssz","xx");
+                break;
+            case R.id.edit_template_confirm:
+                Intent intent = new Intent(EditPhotoActivity.this,ShareActivity.class);
+                Bitmap result = GetDiskBitmap.loadBitmapFromView(editFrame);
+//                intent.putExtra("result",result);
+//                startActivity(intent);
+
+                MediaStore.Images.Media.insertImage(getContentResolver(), result, "faceShop", "");
+                Toast.makeText(EditPhotoActivity.this,"图片已保存到系统相册!",Toast.LENGTH_SHORT).show();
                 break;
 
         }
@@ -192,7 +216,7 @@ public class EditPhotoActivity extends BaseActivity implements View.OnClickListe
                 Gson gson = new Gson();
                 FacePositionModel model = gson.fromJson(respsonse.toString(),FacePositionModel.class);
                 Log.d("TAG",model.toString());
-               detectFaceInteractor = new DetectFaceInteractorImpl(model,faceBitmap);
+               detectFaceInteractor = new DetectFaceInteractorImpl(model,BitmapRich.toGrayscale(faceBitmap));
                 result = detectFaceInteractor.getFace();
 
 
@@ -235,9 +259,6 @@ public class EditPhotoActivity extends BaseActivity implements View.OnClickListe
 
             face.setScaleType(ImageView.ScaleType.FIT_START);
 
-            Log.d("sssss", "width" + template.getWidth());
-            Log.d("ssssss", "faceTop" + faceTop + "    templateTop" + templateTop);
-            Log.d("ssssss", "faceLeft" + faceLeft + "   templateLeft" + templateLeft);
             params.setMargins(faceLeft, faceTop, 0, 0);
             face.setLayoutParams(params);
             editFrame.addView(face);
@@ -246,11 +267,16 @@ public class EditPhotoActivity extends BaseActivity implements View.OnClickListe
 
 
 
-            Bitmap finalBitmap = BitmapRich.toGrayscale(result);
-            Bitmap zzBitmap = detectFaceInteractor.removeBorder(finalBitmap);
+//            Bitmap finalBitmap = BitmapRich.toGrayscale(result);
 
+//            Bitmap zzBitmap = detectFaceInteractor.removeBorder(finalBitmap);
 
+            Bitmap bigFeatures = detectFaceInteractor.getFeatures();
+            Bitmap zzBitmap = detectFaceInteractor.getSmallFeatures(bigFeatures);
+//            Bitmap finalBitmap = BitmapRich.toGrayscale(zzBitmap);
             face.setImageBitmap(zzBitmap);
+//            face.setBackgroundColor(Color.WHITE);
+
 
 
             dragText = new DragText(EditPhotoActivity.this);

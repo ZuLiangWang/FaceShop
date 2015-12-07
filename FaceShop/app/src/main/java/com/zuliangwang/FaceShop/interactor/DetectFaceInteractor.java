@@ -15,12 +15,16 @@ public interface DetectFaceInteractor {
 
     public Bitmap getRightEye();
 
-    public Bitmap getLeftEyebrew();
+    public Bitmap getLeftEyebrow();
 
-    public Bitmap getRightEyebrew();
+    public Bitmap getRightEyebrow();
 
     public Bitmap getNose();
 
     public Bitmap getMouse();
+
+    public Bitmap getFeatures();
+
+    public Bitmap getSmallFeatures(Bitmap features);
 
 }

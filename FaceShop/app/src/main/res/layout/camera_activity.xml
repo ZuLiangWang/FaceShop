@@ -1,9 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:background="@color/background"
     android:layout_height="match_parent">
 
     <LinearLayout
+
         android:layout_margin="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -15,8 +17,16 @@
             android:layout_width="30dp"
             android:layout_height="30dp" />
     </LinearLayout>
+
+
+
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <ImageButton
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/ic_launcher"
         android:background="@color/background"
         android:scaleType="centerInside"
@@ -25,11 +35,17 @@
         android:layout_height="140dp" />
 
     <ImageButton
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/take_photo"
         android:src="@drawable/ic_launcher"
         android:background="@color/background"
         android:scaleType="centerInside"
         android:id="@+id/select_from_photoalbum"
         android:layout_width="200dp"
         android:layout_height="140dp" />
+</RelativeLayout>
+
+
+
+
 </LinearLayout>

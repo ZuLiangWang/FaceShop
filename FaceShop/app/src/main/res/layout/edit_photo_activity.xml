@@ -17,12 +17,21 @@
             android:layout_width="30dp"
             android:layout_height="30dp" />
 
-        <TextView
-            android:text="配字"
-            android:textSize="20dp"
+        <ImageView
+            android:scaleType="centerInside"
+            android:id="@+id/edit_title"
             android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <ImageButton
+            android:layout_alignParentRight="true"
+            android:background="@color/background"
+            android:scaleType="centerInside"
+            android:id="@+id/edit_template_confirm"
+            android:src="@drawable/confirm"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
 
     </RelativeLayout>
 
@@ -80,6 +89,7 @@
             <TextView
                 android:layout_weight="1"
                 android:text="字号"
+                android:textColor="@color/test"
                 android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -97,6 +107,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp" />
                 <TextView
+                    android:textColor="@color/test"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_horizontal"
                     android:text="1"
@@ -123,7 +134,7 @@
             android:layout_width="250dp"
             android:padding="5dp"
             android:layout_marginBottom="10dp"
-            android:layout_height="match_parent">
+            android:layout_height="150dp">
 
             <EditText
                 android:gravity="top"

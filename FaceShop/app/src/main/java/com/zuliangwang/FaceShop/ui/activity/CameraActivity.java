@@ -56,6 +56,7 @@ public class CameraActivity extends BaseActivity implements View.OnClickListener
 
         takePhoto.setOnClickListener(this);
         selectFromAlbumButton.setOnClickListener(this);
+        back.setOnClickListener(this);
 
 
 //        Picasso.with(this).load(R.drawable.b1).into(takePhoto);
@@ -75,6 +76,9 @@ public class CameraActivity extends BaseActivity implements View.OnClickListener
             case R.id.select_from_photoalbum:
                 selectFromAlbum();
                 Log.d("TAG","album");
+                break;
+            case R.id.cameraac_back:
+                onBackPressed();
                 break;
         }
     }

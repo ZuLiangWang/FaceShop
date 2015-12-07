@@ -4,29 +4,35 @@
     android:background="@color/background"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
+        android:layout_gravity="center_horizontal"
         android:layout_margin="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageButton
+            android:layout_alignParentLeft="true"
             android:background="@color/background"
             android:id="@+id/select_template_back"
             android:layout_width="30dp"
             android:layout_height="30dp" />
 
-        <TextView
-            android:layout_gravity="center_horizontal"
-            android:text="选图"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/select_template_confirm"
-            android:text="确定"
+        <ImageView
+            android:scaleType="centerInside"
+            android:id="@+id/select_title"
+            android:layout_centerHorizontal="true"
             android:layout_width="30dp"
             android:layout_height="30dp" />
 
-    </LinearLayout>
+        <ImageButton
+            android:layout_alignParentRight="true"
+            android:background="@color/background"
+            android:scaleType="centerInside"
+            android:id="@+id/select_template_confirm"
+            android:src="@drawable/confirm"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+    </RelativeLayout>
 
 
     <FrameLayout
@@ -57,7 +63,6 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-
             android:layout_marginBottom="50dp"
             android:layout_alignParentBottom="true"
             android:id="@+id/template_recycler"

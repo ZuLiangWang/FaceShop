@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.mob.tools.MobUIShell;
 import com.squareup.picasso.Picasso;
@@ -45,7 +46,10 @@ public class SelectTemplateActivity extends BaseActivity {
     ImageButton backButton;
 
     @InjectView(R.id.select_template_confirm)
-    Button confirm;
+    ImageButton confirm;
+
+    @InjectView(R.id.select_title)
+    ImageView selectTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +65,18 @@ public class SelectTemplateActivity extends BaseActivity {
         initTemplatesIdList();
         initTemplateReycler();
         Picasso.with(this).load(R.drawable.b2).resize(50,50).into(backButton);
+        Picasso.with(this).load(R.drawable.c1).into(selectTitle);
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 passTemplate();
+            }
+        });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 
