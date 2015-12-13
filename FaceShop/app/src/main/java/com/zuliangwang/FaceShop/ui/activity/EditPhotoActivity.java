@@ -31,6 +31,7 @@ import com.zuliangwang.FaceShop.R;
 import com.zuliangwang.FaceShop.YouTuApplication;
 import com.zuliangwang.FaceShop.bean.FacePositionModel;
 import com.zuliangwang.FaceShop.bean.FaceTemplateBean;
+import com.zuliangwang.FaceShop.interactor.DetectFaceInteractor;
 import com.zuliangwang.FaceShop.interactor.impl.DetectFaceInteractorImpl;
 import com.zuliangwang.FaceShop.ui.Config;
 import com.zuliangwang.FaceShop.utils.bitmapcontroller.BitmapClipMaster;
@@ -49,6 +50,12 @@ import java.security.NoSuchAlgorithmException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observable;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import youtu.Youtu;
 
 /**
@@ -119,8 +126,10 @@ public class EditPhotoActivity extends BaseActivity implements View.OnClickListe
         initTemplate();
 
 
-        LoadFaceTask task = new LoadFaceTask();
-        task.execute();
+//        LoadFaceTask task = new LoadFaceTask();
+//        task.execute();
+
+        rxTask();
 
     }
 
@@ -204,101 +213,183 @@ public class EditPhotoActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-    public class LoadFaceTask extends AsyncTask{
-        Bitmap result;
-        DetectFaceInteractorImpl detectFaceInteractor;
+//    public class LoadFaceTask extends AsyncTask{
+//        Bitmap result;
+//        DetectFaceInteractorImpl detectFaceInteractor;
+//
+//        @Override
+//        protected Object doInBackground(Object[] params) {
+//            Youtu youtu = ((YouTuApplication)getApplication()).getYoutu();
+//            try {
+//                JSONObject respsonse = youtu.FaceShape(faceBitmap,0);
+//                Gson gson = new Gson();
+//                FacePositionModel model = gson.fromJson(respsonse.toString(),FacePositionModel.class);
+//                Log.d("TAG",model.toString());
+//               detectFaceInteractor = new DetectFaceInteractorImpl(model,BitmapRich.toGrayscale(faceBitmap));
+//                result = detectFaceInteractor.getFace();
+//
+//
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            } catch (KeyManagementException e) {
+//                e.printStackTrace();
+//            } catch (NoSuchAlgorithmException e) {
+//                e.printStackTrace();
+//            }
+//
+//
+//            return null;
+//        }
+//
+//
+//        @Override
+//        protected void onPostExecute(Object o) {
+//            super.onPostExecute(o);
+//
+//            Config config = new Config();
+//            FaceTemplateBean bean = config.getTemplateConfig(curTemplatePosition);
+//            float temLeft = bean.getLeft()*template.getWidth();
+//            faceLeft = (int) (templateLeft+ temLeft);
+//
+//            float temRight = bean.getRight()*template.getWidth();
+//            faceRight = (int) (templateLeft+temRight);
+//
+//            float temTop = bean.getTop()*template.getHeight();
+//            faceTop = (int) (templateTop+temTop);
+//
+//            float temBottom=bean.getBottom()*template.getHeight();
+//            faceBottom = (int) (templateTop+templateBottom);
+//
+//            ImageView face = new ImageView(EditPhotoActivity.this);
+//            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(faceRight-faceLeft,faceBottom-faceTop);
+//
+//            face.setScaleType(ImageView.ScaleType.FIT_START);
+//
+//            params.setMargins(faceLeft, faceTop, 0, 0);
+//            face.setLayoutParams(params);
+//            editFrame.addView(face);
+//
+//
+//
+//
+//
+////            Bitmap finalBitmap = BitmapRich.toGrayscale(result);
+//
+////            Bitmap zzBitmap = detectFaceInteractor.removeBorder(finalBitmap);
+//
+//            Bitmap bigFeatures = detectFaceInteractor.getFeatures();
+//            Bitmap zzBitmap = detectFaceInteractor.getSmallFeatures(bigFeatures);
+////            Bitmap finalBitmap = BitmapRich.toGrayscale(zzBitmap);
+//            face.setImageBitmap(zzBitmap);
+////            face.setBackgroundColor(Color.WHITE);
+//
+//
+//
+//            dragText = new DragText(EditPhotoActivity.this);
+//
+//            FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//            dragText.setLayoutParams(p);
+//            editFrame.addView(dragText);
+//            Log.d("ssssx", "panrent" + dragText.getParent().toString());
+//
+//            editText.setOnKeyListener(new View.OnKeyListener() {
+//                @Override
+//                public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                    dragText.setText(editText.getText());
+//                    return false;
+//                }
+//            });
+//            curTextSize = dragText.getTextSize();
+//            textSizeRat = curTextSize;
+//
+//
+//        }
+//    }
 
-        @Override
-        protected Object doInBackground(Object[] params) {
-            Youtu youtu = ((YouTuApplication)getApplication()).getYoutu();;
-            try {
-                JSONObject respsonse = youtu.FaceShape(faceBitmap,0);
-                Gson gson = new Gson();
-                FacePositionModel model = gson.fromJson(respsonse.toString(),FacePositionModel.class);
-                Log.d("TAG",model.toString());
-               detectFaceInteractor = new DetectFaceInteractorImpl(model,BitmapRich.toGrayscale(faceBitmap));
-                result = detectFaceInteractor.getFace();
+
+    private void rxTask(){
+
+        final Gson gson = new Gson();
+        final Youtu youtu = ((YouTuApplication)getApplication()).getYoutu();
+        Observable.just(faceBitmap)
+                .map(new Func1<Bitmap, DetectFaceInteractor>() {
+                    @Override
+                    public DetectFaceInteractor call(Bitmap bitmap) {
+                        JSONObject respsonse = null;
+                        try {
+                            respsonse = youtu.FaceShape(faceBitmap, 0);
+                            FacePositionModel model = gson.fromJson(respsonse.toString(), FacePositionModel.class);
+                            detectFaceInteractor = new DetectFaceInteractorImpl(model, BitmapRich.toGrayscale(faceBitmap));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (KeyManagementException e) {
+                            e.printStackTrace();
+                        } catch (NoSuchAlgorithmException e) {
+                            e.printStackTrace();
+                        }
+                        return detectFaceInteractor;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<DetectFaceInteractor>() {
+                    @Override
+                    public void call(DetectFaceInteractor detectFaceInteractor) {
+                        Config config = new Config();
+                        FaceTemplateBean bean = config.getTemplateConfig(curTemplatePosition);
+                        float temLeft = bean.getLeft()*template.getWidth();
+                        faceLeft = (int) (templateLeft+ temLeft);
+
+                        float temRight = bean.getRight()*template.getWidth();
+                        faceRight = (int) (templateLeft+temRight);
+
+                        float temTop = bean.getTop()*template.getHeight();
+                        faceTop = (int) (templateTop+temTop);
+
+                        float temBottom=bean.getBottom()*template.getHeight();
+                        faceBottom = (int) (templateTop+templateBottom);
+
+                        ImageView face = new ImageView(EditPhotoActivity.this);
+                        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(faceRight-faceLeft,faceBottom-faceTop);
+
+                        face.setScaleType(ImageView.ScaleType.FIT_START);
+
+                        params.setMargins(faceLeft, faceTop, 0, 0);
+                        face.setLayoutParams(params);
+                        editFrame.addView(face);
 
 
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (KeyManagementException e) {
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
+                        Bitmap bigFeatures = detectFaceInteractor.getFeatures();
+                        Bitmap zzBitmap = detectFaceInteractor.getSmallFeatures(bigFeatures);
+                        face.setImageBitmap(zzBitmap);
 
 
-            return null;
-        }
+                        dragText = new DragText(EditPhotoActivity.this);
+                        FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        dragText.setLayoutParams(p);
+                        editFrame.addView(dragText);
+                        Log.d("ssssx", "panrent" + dragText.getParent().toString());
 
+                        editText.setOnKeyListener(new View.OnKeyListener() {
+                            @Override
+                            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                                dragText.setText(editText.getText());
+                                return false;
+                            }
+                        });
+                        curTextSize = dragText.getTextSize();
+                        textSizeRat = curTextSize;
 
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
+                    }
+                });
 
-            Config config = new Config();
-            FaceTemplateBean bean = config.getTemplateConfig(curTemplatePosition);
-            float temLeft = bean.getLeft()*template.getWidth();
-            faceLeft = (int) (templateLeft+ temLeft);
-
-            float temRight = bean.getRight()*template.getWidth();
-            faceRight = (int) (templateLeft+temRight);
-
-            float temTop = bean.getTop()*template.getHeight();
-            faceTop = (int) (templateTop+temTop);
-
-            float temBottom=bean.getBottom()*template.getHeight();
-            faceBottom = (int) (templateTop+templateBottom);
-
-            ImageView face = new ImageView(EditPhotoActivity.this);
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(faceRight-faceLeft,faceBottom-faceTop);
-
-            face.setScaleType(ImageView.ScaleType.FIT_START);
-
-            params.setMargins(faceLeft, faceTop, 0, 0);
-            face.setLayoutParams(params);
-            editFrame.addView(face);
-
-
-
-
-
-//            Bitmap finalBitmap = BitmapRich.toGrayscale(result);
-
-//            Bitmap zzBitmap = detectFaceInteractor.removeBorder(finalBitmap);
-
-            Bitmap bigFeatures = detectFaceInteractor.getFeatures();
-            Bitmap zzBitmap = detectFaceInteractor.getSmallFeatures(bigFeatures);
-//            Bitmap finalBitmap = BitmapRich.toGrayscale(zzBitmap);
-            face.setImageBitmap(zzBitmap);
-//            face.setBackgroundColor(Color.WHITE);
-
-
-
-            dragText = new DragText(EditPhotoActivity.this);
-
-            FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            dragText.setLayoutParams(p);
-            editFrame.addView(dragText);
-            Log.d("ssssx", "panrent" + dragText.getParent().toString());
-
-            editText.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    dragText.setText(editText.getText());
-                    return false;
-                }
-            });
-            curTextSize = dragText.getTextSize();
-            textSizeRat = curTextSize;
-
-
-        }
     }
+
 
 
 }

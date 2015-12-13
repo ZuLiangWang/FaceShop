@@ -48,4 +48,6 @@ dependencies {
     compile files('/Users/zuliangwang/AndroidProject/FaceShop/sharesdk/libs/MobTools.jar')
     compile files('/Users/zuliangwang/AndroidProject/FaceShop/sharesdk/libs/MobCommons.jar')
     compile files('libs/picasso-2.5.2.jar')
+    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'io.reactivex:rxandroid:1.1.0'
 }

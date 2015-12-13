@@ -27,7 +27,7 @@ import com.zuliangwang.FaceShop.interactor.impl.DetectFaceInteractorImpl;
 import com.zuliangwang.FaceShop.utils.bitmapcontroller.BitmapClipMaster;
 import com.zuliangwang.FaceShop.utils.bitmapcontroller.BitmapRich;
 import com.zuliangwang.FaceShop.utils.cameraUtils.CameraFilePath;
-import com.zuliangwang.FaceShop.view.LoginView;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -14,7 +14,7 @@ import com.zuliangwang.FaceShop.R;
 import com.zuliangwang.FaceShop.presenter.CameraPresenter;
 import com.zuliangwang.FaceShop.presenter.impl.CameraPresenterImpl;
 import com.zuliangwang.FaceShop.utils.cameraUtils.CameraFilePath;
-import com.zuliangwang.FaceShop.view.CameraView;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import java.io.IOException;
 /**
  * Created by zuliangwang on 15/11/15.
  */
-public class CameraActivity extends BaseActivity implements View.OnClickListener,CameraView{
+public class CameraActivity extends BaseActivity implements View.OnClickListener{
 
 
 //    @InjectView(R.id.take_photo)
@@ -52,7 +52,6 @@ public class CameraActivity extends BaseActivity implements View.OnClickListener
         Log.d("TAG", "ss" + takePhoto.getWidth() + "dd" + selectFromAlbumButton.getWidth() + "cc" + back.getWidth());
 
 
-        cameraPresenter = new CameraPresenterImpl(this,this,this);
 
         takePhoto.setOnClickListener(this);
         selectFromAlbumButton.setOnClickListener(this);
@@ -153,9 +152,6 @@ public class CameraActivity extends BaseActivity implements View.OnClickListener
     }
 
 
-    @Override
-    public void initialized() {
 
-    }
 
 }

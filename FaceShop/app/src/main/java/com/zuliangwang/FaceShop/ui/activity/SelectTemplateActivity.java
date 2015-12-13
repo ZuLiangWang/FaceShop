@@ -15,6 +15,7 @@ import com.mob.tools.MobUIShell;
 import com.squareup.picasso.Picasso;
 import com.zuliangwang.FaceShop.R;
 import com.zuliangwang.FaceShop.adapter.TemplateReclylerAdapter;
+
 import com.zuliangwang.FaceShop.listener.TemplateAdapterLisener;
 import com.zuliangwang.FaceShop.widget.DragImageView;
 
@@ -23,6 +24,8 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by zuliangwang on 15/11/28.
@@ -117,7 +120,7 @@ public class SelectTemplateActivity extends BaseActivity {
     }
 
     private void initTemplateReycler(){
-        TemplateReclylerAdapter adapter = new TemplateReclylerAdapter(this,list);
+        final TemplateReclylerAdapter adapter = new TemplateReclylerAdapter(this,list);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         templateRecycler.setLayoutManager(manager);
@@ -129,6 +132,11 @@ public class SelectTemplateActivity extends BaseActivity {
                 curTemplatePosition = posiotion;
             }
         });
+
+
+
+
+
         templateRecycler.setAdapter(adapter);
 
 
